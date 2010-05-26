@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class ClientSocket {
+public class ClientSocketCommunication {
 
     private Socket socket;
     private final int port = 7777;

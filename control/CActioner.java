@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CActioner {
-    private ClientSocket cs;
+    private ClientSocketCommunication cs;
     private SendObject sObject;
     private final String login = "login";
     private final String findShipDates = "findShipDates";
     private final String placeOrder = "placeOrder";
 
     public CActioner() throws Exception {
-	cs = new ClientSocket();
+	cs = new ClientSocketCommunication();
     }
 
     //henter user og rettigheder
