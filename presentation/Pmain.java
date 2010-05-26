@@ -12,6 +12,7 @@ public class Pmain {
 
     public static void main(String[] args) throws Exception {
 	// create control objekt
+	// final CActioner
 	final CActioner control = new CActioner();
 	final PUser user;
 	ArrayList<Integer> userAccess = new ArrayList<Integer>();

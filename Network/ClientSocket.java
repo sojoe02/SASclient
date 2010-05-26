@@ -1,53 +1,42 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Network;
-import  java.io.IOException;
+
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.ClassNotFoundException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class ClientSocket {
-    Socket socket;
- 
 
-	public SendObject sendToServer(SendObject sObject) 	{
-       try{
-            //
-            // Create a connection to the server socket on the server application
-            //
-            	InetAddress host = InetAddress.getLocalHost();
-             socket = new Socket(host.getHostName(), 7777);
+    private Socket socket;
+    private final int port = 7777;
+// Sender metoden til sas, hvor responset fra sas returneres til kontrolklassen
+    public SendObject sendToServer(SendObject sObject) {
+	try {
+	    // Skabe forbindelse til server med port og ipadress
+	    InetAddress host = InetAddress.getLocalHost();
+	    socket = new Socket(host.getHostName(), port);
 
-            //
-            // Send a message to the client application
-            //
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(sObject);
+	    //Sender sObject til serveren
+	    ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+	    oos.writeObject(sObject);
 
-            //
-            // Read and display the response message sent by server application
-            //
+	    // Læser responset fra server applikationen
 	    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-           sObject = (SendObject) ois.readObject();
-           
+	    sObject = (SendObject) ois.readObject();
 
+	    // Lukker stream
+	    ois.close();
+	    oos.close();
 
-
-	            ois.close();
-            oos.close();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-       return sObject;
+	} catch (UnknownHostException e) {
+	    e.printStackTrace();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	} catch (ClassNotFoundException e) {
+	    e.printStackTrace();
+	}
+	return sObject;
     }
-    }
+}
