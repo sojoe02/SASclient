@@ -18,17 +18,34 @@ public class SendObject implements Serializable{
     ArrayList<String> ShipDates = new ArrayList<String>();
     ArrayList<String[]> availableShips;
     private int userID;
+    private int shipID;
+    private int startSID;
+    private int endSID;
     private int containers;
     private String metodeChoose;
     private String startDest;
     private String endDest;
+    private String content;
     private Date date;
 
-  public SendObject (String metodeChoose, ArrayList<String[]> availableShips )   {
+    public SendObject(int userID, int shipID, int startSID, int endSID,
+	    int containers, String content, String metodeChoose)	{
+	this.userID = userID;
+	this.shipID = shipID;
+	this.startSID = startSID;
+	this.endSID = endSID;
+	this.containers = containers;
+	this.content = content;
+	this.metodeChoose = metodeChoose;
+
+    }
+
+  public SendObject (String metodeChoose, ArrayList<String[]> availableShips ) {
       this.availableShips = availableShips;
   }
 
-    public SendObject(String startDest, String endDest, Date date, int containers, String metodeChoose) {
+    public SendObject(String startDest, String endDest, Date date,
+	    int containers, String metodeChoose) {
 	this.startDest = startDest;
 	this.endDest = endDest;
 	this.date = date;
@@ -45,12 +62,32 @@ public class SendObject implements Serializable{
      this.metodeChoose = metodeChoose;
 
  }
+
+ public ArrayList<Integer> getUserInfo()	{
+    return userInfo;
+ }
+
 public ArrayList<String[]> getAvailableShips()	{
     return availableShips;
 }
 
-public ArrayList<Integer> getuserInfo()    {
-    return userInfo;
+
+
+
+public String getContent()   {
+    return content;
+}
+
+public int getEndSID()   {
+    return endSID;
+}
+
+public int getStartSID()   {
+    return startSID;
+}
+
+public int getShipID()   {
+    return shipID;
 }
 
 public int getUserID()   {

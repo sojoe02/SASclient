@@ -9,29 +9,35 @@ import java.util.Date;
 public class ClientServerCommunication {
 
     private String ipAddress = "localhost";
-    private final int port = 6789;
+     //private final int port = 6789;
      private WriteRead wr;
-    Socket socket;
+    Socket getSocket;
+
         ServerSocket serversocket;
     SendObject sObject;
     ArrayList<String> ShipDates = new ArrayList<String>();
 
-    public ClientServerCommunication()	{
-
+    public ClientServerCommunication() throws IOException	{
+    
+    
     }
+public void setup() throws IOException {
+ 
+    
+}
 
 
-
-    public void sendToServer(SendObject sObject) throws Exception    {
-
+    public void sendToServer(int port, SendObject sObject) throws Exception    {
+		    Socket sendSocket = null;
 		try {
-	    socket = new Socket(ipAddress, port);
+	       sendSocket = new Socket(ipAddress, 6400);
 	    System.out.println("\nClient is ready");
-	    wr = new WriteRead(socket);
+	    wr = new WriteRead(sendSocket);
 	    // Sender objektet sendes
 	    wr.writeToSocket(sObject);
 
-	    socket.close();
+	    sendSocket.close();
+
 
 	} catch (IOException e) {
 	    e.printStackTrace();
@@ -39,16 +45,17 @@ public class ClientServerCommunication {
 
     }
 
-public SendObject getResponse() throws Exception	{
-    	serversocket = new ServerSocket(6431);
-
+public SendObject getResponse(int port) throws Exception	{
+    	serversocket = null;
+	getSocket = null;
+	serversocket = new ServerSocket(6701);
 	System.out.println("\nTCPServer waiting for connection on port 6789");
-	socket = serversocket.accept();
+	getSocket = serversocket.accept();
 	System.out.println("\nTCPServer got a connection");
-	wr = new WriteRead(socket);
+	wr = new WriteRead(getSocket);
 	//Læser fra socket i sendObject
 	sObject = wr.readFromSocket();
-	socket.close();
+	getSocket.close();
 
 	return sObject;
 

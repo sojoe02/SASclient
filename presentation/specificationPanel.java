@@ -40,7 +40,7 @@ public class specificationPanel extends JPanel{
 
         //tilføj text felter
         startDestField = new JTextField("Odense");
-        endDestField = new JTextField("Amsterdam");
+        endDestField = new JTextField("New York");
         startDateField = new JTextField("2010-06-02");
         numField = new JTextField("10");
         conField = new JTextField("Bananer");

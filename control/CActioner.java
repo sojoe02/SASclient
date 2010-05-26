@@ -6,13 +6,16 @@ import java.util.Date;
 
 public class CActioner {
 
-    private  ClientServerCommunication csc;
+    private  ClientSocket cs;
+    
 	private SendObject sObject;
 	private final String login = "login";
 	private final String findShipDates = "findShipDates";
+	private final String placeOrder = "placeOrder";
 
     public CActioner() throws Exception {
-	csc = new ClientServerCommunication();
+	cs = new ClientSocket();
+	
 
     }
 
@@ -22,22 +25,16 @@ public class CActioner {
 
     //henter user og rettigheder
     public ArrayList<Integer> login(int userID) throws Exception {
-	
+	//cs.setup();
 	sObject = new SendObject(userID, login);
-	csc.sendToServer(sObject);
-	sObject = csc.getResponse();
-	System.out.println(Integer.toString(sObject.getuserInfo().get(0)));
-	System.out.println(Integer.toString(sObject.getuserInfo().get(1)));
-	System.out.println(Integer.toString(sObject.getuserInfo().get(2)));
-	return sObject.getuserInfo();
-/*
-	ArrayList<Integer> userInfo = new ArrayList<Integer>();
-	userInfo.add(1);
-	    userInfo.add(0);
-	    userInfo.add(0);
-	return userInfo;
- *
- */
+	sObject = cs.sendToServer(sObject);
+
+	
+	System.out.println(Integer.toString(sObject.getUserInfo().get(0)));
+	System.out.println(Integer.toString(sObject.getUserInfo().get(1)));
+	System.out.println(Integer.toString(sObject.getUserInfo().get(2)));
+	return sObject.getUserInfo();
+
     }
 
     // findShipDates henter de skibsdatoer der overholder kundens ønsker.
@@ -46,10 +43,11 @@ public class CActioner {
 	/* Resultet af de fundne datoer sendes op til kunden i
 	 presentationsalget i form af et arraylist.
 	 */
-		System.out.println("her til");
+		
 	sObject = new SendObject(startDest, endDest, date, containers, findShipDates);
-	csc.sendToServer(sObject);
-	sObject = csc.getResponse();
+	sObject = cs.sendToServer(sObject);
+
+
 
 	System.out.println(sObject.getAvailableShips().get(0));
 	System.out.println(sObject.getAvailableShips().get(1));
@@ -59,6 +57,8 @@ public class CActioner {
     //opret order
     public void placeOrder (int userID, int shipID, int startSID, int endSID, int containers, String content) throws Exception {
 	//opretter order i DB
-	broker.placeOrder(userID, shipID, startSID, endSID, containers, content);
+	sObject = new SendObject(userID, shipID, startSID, endSID, containers, content, placeOrder);
+	cs.sendToServer(sObject);
+	System.out.println("Ved placeorder ved kontrol");
     }
 }
